@@ -64,10 +64,12 @@ private
     command_line = ''
     while command_line.empty? do
       show_prompt session.requests.last
-      if (command_line = $stdin.gets).nil?
-        raise Interrupt
+      command_line = $stdin.gets
+      if command_line.nil?
+        command_line = 'quit'
+      else
+        command_line.chomp!.strip!
       end
-      command_line.chomp!.strip!
     end
     HTTY::CLI::Commands.build_for command_line, :session => session
   end
